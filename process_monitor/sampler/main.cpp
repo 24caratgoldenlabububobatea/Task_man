@@ -2,7 +2,7 @@
 #include <thread>
 #include <chrono>
 
-#include "process/process_info.h"
+#include "system/process_info.h"
 
 int main() {
     CPUUsageMonitor cpu;
@@ -14,6 +14,6 @@ int main() {
         } else {
             std::cout << "CPU Usage: " << usage << "%\n";
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
