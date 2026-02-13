@@ -4,9 +4,12 @@
 #include <mach/processor_info.h>
 #include <mach/mach_host.h>
 
+// difference between two measurements
 CPUUsageMonitor::CPUUsageMonitor()
     : prevCpuInfo(nullptr), prevCpuInfoCount() {
 
+
+//Give me CPU load statistics
     natural_t cpuCount;
     host_processor_info(
         mach_host_self(),
@@ -17,6 +20,7 @@ CPUUsageMonitor::CPUUsageMonitor()
     );
 }
 
+// Free any allocated resources
 CPUUsageMonitor::~CPUUsageMonitor() {
     if (prevCpuInfo) {
         vm_deallocate(
@@ -26,12 +30,13 @@ CPUUsageMonitor::~CPUUsageMonitor() {
         );
     }
 }
-
+// Sample CPU usage since last call
 double CPUUsageMonitor::sample() {
     natural_t cpuCount;
     processor_info_array_t cpuInfo;
     mach_msg_type_number_t cpuInfoCount;
 
+// Get current CPU load statistics
     host_processor_info(
         mach_host_self(),
         PROCESSOR_CPU_LOAD_INFO,
@@ -40,6 +45,7 @@ double CPUUsageMonitor::sample() {
         &cpuInfoCount
     );
 
+// Calculate CPU usage based on difference between current and previous measurements
     double used = 0.0;
     double total = 0.0;
 

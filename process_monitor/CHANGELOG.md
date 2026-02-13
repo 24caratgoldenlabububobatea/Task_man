@@ -6,6 +6,7 @@
 - Laget `sampler/main.cpp` for å skrive ut CPU-målinger
 - Lagt til `meow` test-verktøy for minne-stress
 - Opprettet `README.md` og `TODO.md` for videre arbeid
+- Opprettet `CHANGELOG.md`
 - Bygget og testet kompilering (lokalt)
 
 *(Følg formatet: dato og punktliste over endringer for hver dag)*

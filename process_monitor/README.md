@@ -1,7 +1,7 @@
 # ReadMe
 
 ## Konsept 
-Dette prosjektet samler CPU-bruk fra klienter (sampler skrevet i C++) og sender målinger til en nettjeneste med database, hvor brukere kan sammenligne CPU-bruken sin med andre. Målet er å bygge en komplett løsning: klient, API, database, frontend for visualisering og sammenligning, samt tilhørende dokumentasjon og brukerstøtte. (AI ble brukt for å lage read me, CHANGELOG og TODO.)
+Dette prosjektet samler CPU-bruk fra klienter (sampler skrevet i C++) og sender målinger til en nettjeneste med database, hvor brukere kan sammenligne CPU-bruken sin med andre. Målet er å bygge en komplett løsning: klient, API, database, frontend for visualisering og sammenligning, samt tilhørende dokumentasjon og brukerstøtte. (AI ble brukt for å lage read me, CHANGELOG og TODO.) 
 
 > Kort: Klient (sampler) måler CPU, backend lagrer målinger, frontend viser grafer og sammenligninger.
 
@@ -122,3 +122,4 @@ Her forklarer vi kort hvorfor jeg har gjort de viktigste valg i prosjektet og hv
 ---
 
 _Trenger du at jeg lager `TODO.md` og `CHANGELOG.md` også? Svar så genererer jeg dem._
+
