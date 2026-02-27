@@ -1,4 +1,4 @@
-// how to run: clang++ -std=c++11 -fPIC -c system/cpu_process_info.cpp -o cpu_process_info.o && clang++ -std=c++11 -framework Cocoa cpu_process_info.o ui/Frontend.mm -o CPUApp
+// how to run: clang++ -std=c++11 -fPIC -c system/cpu_process_info.cpp -o cpu_process_info.o clang++ -std=c++11 cpu_process_info.o ui/Frontend.mm -framework Cocoa -framework AVFoundation -o CPUApp
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #include "../system/process_info.h"
