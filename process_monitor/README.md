@@ -121,5 +121,3 @@ Her forklarer vi kort hvorfor jeg har gjort de viktigste valg i prosjektet og hv
 
 ---
 
-_Trenger du at jeg lager `TODO.md` og `CHANGELOG.md` også? Svar så genererer jeg dem._
-
