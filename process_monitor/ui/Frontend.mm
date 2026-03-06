@@ -1,3 +1,4 @@
+// ai_generated
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #include "../system/process_info.h"
