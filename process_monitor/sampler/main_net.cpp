@@ -3,6 +3,7 @@
 #include <chrono>
 
 #include "system/process_info.h"
+#include "system/network.h"
 
 int main()  {
     CPUUsageMonitor cpu;
@@ -13,6 +14,7 @@ int main()  {
             std::cout << "Error sampling CPU usage\n";
         } else {
             std::cout << "CPU Usage: " << usage << "%\n";
+            sendCPUUsage(usage); // will error if server unreachable
         }
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }

@@ -71,13 +71,8 @@ double CPUUsageMonitor::sample() {
         }
     }
 
-    // Free old snapshot
-    vm_deallocate( 
-        mach_task_self(),
-        reinterpret_cast<vm_address_t>(prevCpuInfo),
-        prevCpuInfoCount * sizeof(integer_t)
-    );
-
+    // Free old snapshot 
+  
     // Store current snapshot
     prevCpuInfo = cpuInfo;
     prevCpuInfoCount = cpuInfoCount;
@@ -85,3 +80,4 @@ double CPUUsageMonitor::sample() {
     // Return average across all cores
     return totalTime > 0.0 ? (totalUsed / totalTime) * 100.0 : 0.0;
 }
+
