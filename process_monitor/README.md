@@ -1,114 +1,162 @@
 # CPU Monitoring Dashboard
 
 ## Konsept
-Dette prosjektet samler CPU-bruk fra klienter (sampler skrevet i C++) og sender målinger til en nettjeneste med database. Brukere kan sammenligne CPU-bruken sin med andre. Målet er å bygge en komplett løsning: klient, API, database, frontend for visualisering og sammenligning, samt dokumentasjon og brukerstøtte. (AI ble brukt til å lage ReadMe, CHANGELOG og TODO.)
+Dette prosjektet måler CPU-bruk på macOS med en lokal C++‑sampler og tilbyr to klientmodi:
+- `monitor`: skriver CPU-prosent til terminalen.
+- `monitor_net`: sender CPU-data direkte til en MySQL-database.
 
-> Kort: Klient måler CPU → Backend lagrer → Frontend viser tall og grafer.
+Det finnes også en macOS GUI-app (`CPUApp`) som viser CPU-graf, snakker brukeren til og spiller bakgrunnsmusikk.
+Backend i `server/app.py` kan vise en enkel dashboard-side og tilbyr en REST-endepunkt for CPU-data.
+
+> Kort: Lokal sampler → MySQL-database / GUI-app → enkel dashboard-backend.
+
+---
+
+## Hva som er implementert
+- CPU-sampling på macOS via `system/cpu_process_info.cpp`.
+- Enkel terminalklient: `sampler/main.cpp`.
+- Nettverksmodus: `sampler/main_net.cpp` som kobler direkte mot MySQL via `system/network.cpp`.
+- MySQL-basert lagring av `users` og `cpu_metrics`.
+- Flask-backend i `server/app.py` med `/cpu` og `/dashboard`.
+- macOS GUI-app i `ui/Frontend.mm` med CPU-graf, tale og musikk.
+
+---
+
+## Kompilering
+Kjør fra prosjektroten:
+
+```bash
+make monitor
+make monitor_net
+make CPUApp
+```
+
+Forklaring:
+- `make monitor` bygger konsoll-sampler.
+- `make monitor_net` bygger nettverksklienten som skriver til MySQL.
+- `make CPUApp` bygger macOS GUI-appen.
+
+### Avhengigheter
+- macOS med `clang++` og Xcode-kommandolinjeverktøy.
+- Homebrew `mysql-client` for `monitor_net` og `CPUApp`.
+- Python 3 for Flask-backend.
+- `pip install flask mysql-connector-python` for `server/app.py`.
+
+---
+
+## Kjøring
+### Backend
+1. Sørg for at MySQL er tilgjengelig og at databasen er opprettet.
+2. Oppdater eventuelt `server/app.py` og `system/network.cpp` med egne MySQL-innstillinger.
+3. Start Flask-serveren:
+
+```bash
+cd server
+python3 app.py
+```
+
+Serveren kjører på `http://0.0.0.0:8080`.
+
+### Terminal-sampler
+Kjør enten:
+
+```bash
+./monitor
+```
+
+eller:
+
+```bash
+./monitor_net
+```
+
+- `./monitor` viser bare CPU-bruken i terminalen.
+- `./monitor_net` skriver CPU-målinger direkte til MySQL.
+
+### macOS GUI-app
+Kjør:
+
+```bash
+./CPUApp
+```
+
+Appen viser CPU-graf, gir taleveiledning og spiller valgbar bakgrunnsmusikk.
+
+---
+
+## Arkitektur
+- `system/cpu_process_info.cpp` gir `CPUUsageMonitor` for målinger.
+- `sampler/main.cpp` er en ren sampler.
+- `sampler/main_net.cpp` bruker `system/network.cpp` for databaseoppdatering.
+- `ui/Frontend.mm` lager en enkel Cocoa-app på macOS.
+- `server/app.py` tilbyr backend og dashboard-logikk.
 
 ---
 
 ## Kompetansemål: Brukerstøtte
 Prosjektet dekker flere kompetansemål innen brukerstøtte:
-
-- **Etiske retningslinjer og lovverk**  
-  - Personvern- og samtykkedokumentasjon (GDPR).
-- **Brukerstøtte og veiledning**  
-  - Skrive brukerveiledning og FAQ for installasjon og innsending av målinger.
-- **Kartlegging og utvikling av veiledninger**  
-  - Trinnvise guider for installasjon og rapportering av CPU-data.
-- **Opplæring og kursmateriell**  
-  - Slides / screencasts som viser hvordan løsningen brukes.
-- **Kommunikasjon og terminologi**  
-  - Dokumentasjon tilpasset både tekniske og ikke-tekniske brukere.
-- **Feilsøking og kvalitetssikring**  
-  - Logging, testplan og feilsøkingsdokument. Monitoring, backup og oppetidsovervåking.
-- **Håndtering av krevende situasjoner**  
-  - Supportprosedyrer og eskaleringsrutiner.
-- **Etiske vurderinger**  
-  - Hvordan aggregert CPU-data påvirker brukere og samfunnet.
-- **Samarbeid og samhandlingsverktøy**  
-  - GitHub/Git for versjonskontroll, issues og pull requests.
-- **Likeverdig og inkluderende praksis**  
-  - Retningslinjer for tilgjengelig og inkluderende brukerstøtte.
+- **Etiske retningslinjer og lovverk**
+  - Bevissthet om personvern i hvordan CPU-data og klient-id lagres.
+- **Brukerstøtte og veiledning**
+  - README gir konkrete bygge- og kjøreinstruksjoner.
+- **Kartlegging og utvikling av veiledninger**
+  - Installering og start av backend, klient og GUI er dokumentert.
+- **Kommunikasjon og terminologi**
+  - Tekst og kommentarer er skrevet for både utviklere og brukere.
+- **Feilsøking og kvalitetssikring**
+  - Koden har grunnleggende feilmeldinger og README beskriver kjøretrinn.
+- **Etiske vurderinger**
+  - Prosjektet viser vurdering av dataflyt og lagring av CPU-målinger.
+- **Samarbeid og samhandlingsverktøy**
+  - Git-vennlig struktur og prosjektorganisering.
+- **Likeverdig og inkluderende praksis**
+  - GUI-en inkluderer tale og visuell presentasjon av CPU-verdier.
 
 ---
 
 ## Kompetansemål: Utvikling
-Prosjektet dekker også utviklingskompetanse:
-
-- **Programmeringsspråk**  
-  - Vurdering av språkvalg for klient, backend og frontend.
-- **Funksjonelle krav**  
-  - API, datalagring og brukergrensesnitt (MVP og videreutvikling).
-- **Brukergrensesnitt og tjenestedesign**  
-  - Wireframes og brukertesting for dashboardet.
-- **Teknisk dokumentasjon**  
-  - API-dokumentasjon, databaseskjema og installasjonsveiledning.
-- **Versjonskontroll**  
-  - Git: commits, branches, pull requests.
-- **IT-tjenester med innebygget personvern**  
-  - Anonymisering, samtykke og datalagringspolicy.
-- **Sikkerhet**  
-  - Threat modelling, autentisering, rate-limiting og input-validering.
-- **Testing**  
-  - Enhetstester, integrasjonstester, end-to-end tester.
-- **Database-design**  
-  - Tidsseriedata, brukerrelasjoner, queries, indekser og backup.
+Prosjektet dekker utviklingskompetanse:
+- **Programmeringsspråk**
+  - C++ for lokal sampling og macOS UI, Python for backend.
+- **Funksjonelle krav**
+  - Samling av CPU-data, valgfrie lokal- og nettverksklienter, og enkel dashboard-backend.
+- **Brukergrensesnitt og tjenestedesign**
+  - En enkel terminalklient og en macOS-app med graf og tale.
+- **Teknisk dokumentasjon**
+  - README dekker bygging, kjøring og avhengigheter.
+- **Versjonskontroll**
+  - Kildekodestruktur er laget med Git-tankegang i bakhodet.
+- **IT-tjenester med innebygget personvern**
+  - Lagring av CPU-data i MySQL skjer med et klart klient-id.
+- **Database-design**
+  - `users` og `cpu_metrics` modeller i server/backend-koden.
 
 ---
 
 ## To-do-liste
-**MVP (Minimum viable product)**
+Denne README-en reflekterer hva som er implementert i repoet. Fremtidige forbedringer kan være:
+- Lage en fungerende `/dashboard`-frontend i `server/templates/dashboard.html`.
+- Bedre API-klient for HTTP-basert innsending til `/cpu`.
+- Autentisering og sikrere datatilgang.
+- Enhetstester og integrasjonstesting.
 
-- [ ] API for innsending av CPU-data (REST/JSON)  
-- [ ] Databaseskjema (bruker, enhet, tidsseriedata)  
-- [ ] Klientintegrasjon: sende CPU-målinger til API (autentisert)  
-- [ ] Dashboard: historikk og sammenligning  
-- [ ] Brukerautentisering (signup/login)  
-- [ ] Enhetstesting og integrasjonstesting  
-- [ ] Dokumentasjon: installasjon og brukerveiledning  
-- [ ] Personvern / samtykke og lovverksjekk  
-
-**Utvidelser og kvalitet**
-
-- [ ] Brukerrolle og delingsinnstillinger  
-- [ ] Anonymisering og aggregering for personvern  
-- [ ] Rate-limiting, input-validering og logging  
-- [ ] Skalerbar datalagring (TimescaleDB/InfluxDB/PostgreSQL)  
-- [ ] CI/CD, containerisering og deploy (Docker, GitHub Actions)  
-- [ ] Monitoring og alerting for API og DB  
-- [ ] Kursmateriale og brukerstøtte-dokumenter  
-
-> Tips: Oppdater `TODO.md` etter hvert som oppgaver fullføres.
+Se også `TODO.md` for mer detaljer.
 
 ---
 
 ## Changelog
-Se `CHANGELOG.md` for dag-for-dag endringslogg.
+Se `CHANGELOG.md` for utviklingshistorikk.
 
 ---
 
 ## Hvordan bidra
-- Lag en issue for nye funksjoner eller bugs  
-- Opprett en branch per feature  
-- Åpne pull request med beskrivelse og hvilke tester som er kjørt  
+- Lag en issue for feil eller nye funksjoner.
+- Opprett en branch per ny funksjon.
+- Send pull request med beskrivelse og testinstruksjoner.
 
 ---
 
-## Begrunnelse for valg
-- **Klient i C++**: Lavt ressursforbruk, presise CPU-målinger via plattform-API-er (f.eks. macOS Mach-API).  
-- **Modulær struktur (system/, sampler/, ui/)**: Enkelt vedlikehold og testing, tydelig ansvarfordeling.  
-- **Sampling-design med delt snapshot**: Mer presise målinger, poll-loop kan styre frekvens uten blokkering.  
-- **Personvern og anonymisering**: Minimering av persondata, tidlig fokus på GDPR.  
-- **Backend og datamodell**: Tidsseriedata i TimescaleDB/InfluxDB/Postgres for effektiv lagring og spørring.  
-- **Testing og drift**: CI/CD, enhetstester og overvåking for kvalitet og oppetid.
-
----
-
-## Universell utforming og TTS
-- Dashboardet bruker **tekstbasert informasjon i tillegg til grafer**.  
-- **Tab-navigasjon** og **ARIA-labels** gjør det mulig for blindbrukere å navigere og høre oppdateringer.  
-- Oppdatering hvert 5. sekund med siste 30 målinger gir kort og lesbar tidsserie.  
-- Tall og grafbeskrivelser er synlige for alle brukere og lesbare for skjermlesere.
-
----
+## Merknader
+- `system/network.cpp` bruker direkte MySQL-tilkobling og en klient-id basert på vertsnavn.
+- `server/app.py` er konfigurert for `172.20.128.29`; oppdater denne verdi hvis du kjører eget MySQL-oppsett.
+- `server/templates/dashboard.html` er foreløpig en plassholder i repoet.

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Task_man",
+			"path": "."
+		}
+	],
+	"settings": {
+		"chat.tools.terminal.autoApprove": {
+			"clang++": true
+		}
+	}
+}
