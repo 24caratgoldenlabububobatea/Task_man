@@ -114,6 +114,35 @@ Prosjektet dekker flere kompetansemål innen brukerstøtte:
 
 ---
 
+## Kompetansemål: Driftstøtte
+Prosjektet kan brukes til å oppfylle driftsstøttekompetanser ved å vise hvordan et enkelt målesystem bygges, driftes og dokumenteres:
+- **Utforske og beskrive komponenter i en driftsarkitektur**
+  - Systemet har klient, databaseforbindelse og backend, og beskriver hvordan de henger sammen.
+- **Planlegge, implementere og drifte fysiske og virtuelle løsninger med segmenterte nettverk**
+  - `monitor_net` bruker nettverksforbindelse mot MySQL, og backend kan kjøres på separat server.
+- **Gjøre rede for prinsipper og strukturer for skytjenester og virtuelle tjenester**
+  - Arkitekturen kan overføres til skybaserte tjenester eller virtuelle maskiner.
+- **Administrere brukere, tilganger og rettigheter i relevante systemer**
+  - MySQL-tilgang og klient-id viser hvordan brukertilgang og dataflyt håndteres.
+- **Utforske og beskrive relevante nettverksprotokoller, nettverkstjenester og serverroller**
+  - Prosjektet bruker HTTP/Flask og MySQL-klientprotokoll som driftstjenester.
+- **Planlegge og dokumentere arbeidsprosesser og IT-løsninger**
+  - README dokumenterer bygging, kjøring og konfigurasjon av løsningen.
+- **Utforske trusler mot datasikkerhet og gjøre rede for dagens trusselbilde og hvordan truslene kan påvirke en åpen samfunnsdebatt og tilliten til demokratiet**
+  - Løsningen viser behovet for sikre tilkoblinger og personvern ved håndtering av data.
+- **Gjennomføre risikoanalyse av nettverk og tjenester i en virksomhets systemer og foreslå tiltak for å redusere risikoen**
+  - Prosjektet kan reflektere over svakheter som ukryptert trafikk og hardkodede databaselegitimasjoner.
+- **Forenkle og automatisere arbeidsprosesser i utvikling av IT-løsninger**
+  - Makefile automatiserer bygging av klienter og GUI.
+- **Planlegge, drifte og implementere IT-løsninger som ivaretar informasjonssikkerhet og gjeldende regelverk for personvern**
+  - Data samles uten personopplysninger, men løsningen viser behovet for bedre sikring.
+- **Reflektere over og beskrive hvordan brudd på personvernet kan påvirke enkeltmennesker, virksomheter og samfunn**
+  - README påpeker at CPU-data og klient-id må behandles forsvarlig.
+- **Utforske dataindustriens miljøavtrykk og vurdere tiltak for å sikre bærekraftige valg i IT-løsninger**
+  - En lettvektsklient og lokal sampling reduserer ressursbruk sammenlignet med tyngre systemer.
+
+---
+
 ## Kompetansemål: Utvikling
 Prosjektet dekker utviklingskompetanse:
 - **Programmeringsspråk**
