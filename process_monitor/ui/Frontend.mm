@@ -3,6 +3,20 @@
 #import <AVFoundation/AVFoundation.h>
 #include "../system/process_info.h"
 
+static NSFont *dyslexicFont(CGFloat size) {
+    NSFont *font = [NSFont fontWithName:@"OpenDyslexic3Regular" size:size];
+    if (!font) {
+        font = [NSFont fontWithName:@"Comic Sans MS" size:size];
+    }
+    if (!font) {
+        font = [NSFont fontWithName:@"Verdana" size:size];
+    }
+    if (!font) {
+        font = [NSFont boldSystemFontOfSize:size];
+    }
+    return font;
+}
+
 #define MAX_POINTS 100
 
 @interface CPUGraphView : NSView
@@ -146,7 +160,7 @@
     self.speech.volume = 1.0;
 
     [self.speech startSpeakingString:
-     @"Yo what is up guys, if you're able to see the screen, you can see press the website button to submit your cpu percentage for everyone to see. if you struggle to see the screen, you can also press the spacebar to open the website, and if you want to hear my voice again, please press the M key to unmute me. Enjoy!"];
+     @"Hello it's very nice to meet you. If you struggle with your vision, you can press the button on the left to open the website. it's the white text under the black box that includes the cpu usage graph. If you want to hear my voice again, you can press the button on the right. it's the white text under the black box that includes the cpu usage graph."];
 
 
     // Music setup
@@ -163,7 +177,7 @@
         if (!error) {
 
             self.backgroundMusicPlayer.numberOfLoops = -1;
-            self.backgroundMusicPlayer.volume = 0.8;
+            self.backgroundMusicPlayer.volume = 0;
 
             [self.backgroundMusicPlayer prepareToPlay];
             [self.backgroundMusicPlayer play];
@@ -172,7 +186,7 @@
 
 
     // Window
-    NSRect frame = NSMakeRect(0, 0, 400, 360);
+    NSRect frame = NSMakeRect(0, 0, 900, 760);
 
     self.window = [[KeyWindow alloc] initWithContentRect:frame
                                                styleMask:(NSWindowStyleMaskTitled |
@@ -189,24 +203,25 @@
 
     // Label title
     NSTextField *labelText =
-    [[NSTextField alloc] initWithFrame:NSMakeRect(50, 300, 300, 20)];
+    [[NSTextField alloc] initWithFrame:NSMakeRect(80, 620, 740, 80)];
 
     [labelText setStringValue:@"CPU Usage:"];
     [labelText setBezeled:NO];
     [labelText setDrawsBackground:NO];
     [labelText setEditable:NO];
+    [labelText setFont:dyslexicFont(72)];
 
     [[self.window contentView] addSubview:labelText];
 
 
     // CPU value label
     self.cpuLabel =
-    [[NSTextField alloc] initWithFrame:NSMakeRect(50, 320, 300, 30)];
+    [[NSTextField alloc] initWithFrame:NSMakeRect(80, 520, 740, 110)];
 
     [self.cpuLabel setEditable:NO];
     [self.cpuLabel setBezeled:NO];
     [self.cpuLabel setDrawsBackground:NO];
-    [self.cpuLabel setFont:[NSFont boldSystemFontOfSize:24]];
+    [self.cpuLabel setFont:dyslexicFont(96)];
     [self.cpuLabel setStringValue:@"0.00%"];
 
     [[self.window contentView] addSubview:self.cpuLabel];
@@ -214,16 +229,17 @@
 
     // Graph
     self.graphView =
-    [[CPUGraphView alloc] initWithFrame:NSMakeRect(20, 100, 360, 180)];
+    [[CPUGraphView alloc] initWithFrame:NSMakeRect(60, 120, 780, 360)];
 
     [[self.window contentView] addSubview:self.graphView];
 
 
     // Website button
     self.websiteButton =
-    [[NSButton alloc] initWithFrame:NSMakeRect(80, 40, 100, 30)];
+    [[NSButton alloc] initWithFrame:NSMakeRect(20, 30, 420, 110)];
 
     [self.websiteButton setTitle:@"Website"];
+    [self.websiteButton setFont:dyslexicFont(54)];
     [self.websiteButton setTarget:self];
     [self.websiteButton setAction:@selector(openWebsite)];
 
@@ -232,13 +248,30 @@
 
     // Mute button
     self.muteButton =
-    [[NSButton alloc] initWithFrame:NSMakeRect(220, 40, 100, 30)];
+    [[NSButton alloc] initWithFrame:NSMakeRect(460, 30, 420, 110)];
 
-    [self.muteButton setTitle:@"Mute"];
+    [self.muteButton setTitle:@"Mute/replay"];
+    [self.muteButton setFont:dyslexicFont(54)];
     [self.muteButton setTarget:self];
     [self.muteButton setAction:@selector(toggleMute)];
 
     [[self.window contentView] addSubview:self.muteButton];
+
+
+    // Footer contact label
+    NSTextField *footerLabel =
+    [[NSTextField alloc] initWithFrame:NSMakeRect(20, 5, 860, 45)];
+
+    [footerLabel setStringValue:@"Contact us: 1-800-123-4567. No data is saved; all data is deleted after the program stops. Privacy laws like GDPR/CCPA don't apply to this program."];
+    [footerLabel setBezeled:NO];
+    [footerLabel setDrawsBackground:NO];
+    [footerLabel setEditable:NO];
+    [footerLabel setFont:dyslexicFont(14)];
+    [footerLabel setTextColor:[NSColor grayColor]];
+    [footerLabel setAlignment:NSTextAlignmentCenter];
+    [footerLabel setLineBreakMode:NSLineBreakByWordWrapping];
+
+    [[self.window contentView] addSubview:footerLabel];
 
 
     [self.window makeKeyAndOrderFront:nil];

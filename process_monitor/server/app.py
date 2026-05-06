@@ -147,7 +147,7 @@ def cleanup():
         except Exception as e:
             print("Cleanup error:", e)
 
-        time.sleep(60)
+        time.sleep(67)
 
 
 # Start cleanup thread

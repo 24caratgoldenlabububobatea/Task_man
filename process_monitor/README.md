@@ -132,15 +132,29 @@ Prosjektet kan brukes til å oppfylle driftsstøttekompetanser ved å vise hvord
   - Løsningen viser behovet for sikre tilkoblinger og personvern ved håndtering av data.
 - **Gjennomføre risikoanalyse av nettverk og tjenester i en virksomhets systemer og foreslå tiltak for å redusere risikoen**
   - Prosjektet kan reflektere over svakheter som ukryptert trafikk og hardkodede databaselegitimasjoner.
-- **Forenkle og automatisere arbeidsprosesser i utvikling av IT-løsninger**
-  - Makefile automatiserer bygging av klienter og GUI.
-- **Planlegge, drifte og implementere IT-løsninger som ivaretar informasjonssikkerhet og gjeldende regelverk for personvern**
-  - Data samles uten personopplysninger, men løsningen viser behovet for bedre sikring.
-- **Reflektere over og beskrive hvordan brudd på personvernet kan påvirke enkeltmennesker, virksomheter og samfunn**
-  - README påpeker at CPU-data og klient-id må behandles forsvarlig.
-- **Utforske dataindustriens miljøavtrykk og vurdere tiltak for å sikre bærekraftige valg i IT-løsninger**
-  - En lettvektsklient og lokal sampling reduserer ressursbruk sammenlignet med tyngre systemer.
 
+---
+
+## Risikoanalyse
+
+### Identifiserte Sårbarheter
+
+#### 1. **KRITISK: Hardkodede Databaselegitimasjoner**
+- **Sted**: `system/network.cpp` linje 10-13 og `server/app.py` linje 7-12
+- **Problem**: MySQL-brukernavn, passord og vertsnavn er hardkodet direkte i kildekoden:
+  - Bruker: `Jonathan`
+  - Passord: `amongusishot34`
+  - Vert: `172.20.128.29`
+- **Risiko**: Høy
+  - Alle som har tilgang til kildekoden får tilgang til databasen
+  - Passord eksponeres i Git-historikken for alltid
+  - Kan brukes til uautorisert dataagang og manipulasjon
+- **Tiltak**:
+  - Bruk miljøvariabler: `export DB_PASS=$(cat ~/.db_password)` i koden
+  - Bruk `.env`-filer (ikke committ til Git)
+  - Bruk hemmelighetsadministrasjonssystemer (AWS Secrets Manager, HashiCorp Vault)
+  - Endrе passordet umiddelbar
+  - Roter alle hemmeligheter
 ---
 
 ## Kompetansemål: Utvikling
